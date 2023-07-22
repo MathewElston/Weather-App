@@ -16,6 +16,8 @@ interface Weather {
   condition: string;
   windMPH: number;
   icon: string;
+  sunrise?: string;
+  sunset?: string;
 }
 
 const App = () => {
@@ -40,6 +42,10 @@ const App = () => {
         res.data.forecast.forecastday.map((day: any) => {
           console.log(day.date_epoch);
         });
+        res.data.forecast.forecastday.map((day: any) => {
+          console.log(day.astro.sunrise);
+          console.log(day.astro.sunset);
+        });
         setForecast(
           res.data.forecast.forecastday.map((day: any) => ({
             date: day.date,
@@ -50,6 +56,8 @@ const App = () => {
             windMPH: day.day.maxwind_mph,
             condition: day.day.condition.text,
             icon: day.day.condition.icon,
+            sunrise: day.astro.sunrise,
+            sunset: day.astro.sunset,
           }))
         );
         setLoading(false);
@@ -62,8 +70,10 @@ const App = () => {
   }, [location]);
 
   return (
-    <div className="bg-sunny-morning-gradient text-center">
-      <SearchBar onClick={(event) => setLocation(event)} />
+    <div className="gradient-sunset text-center">
+      <div className ="w-25">
+        <SearchBar onClick={(event) => setLocation(event)} />
+      </div>
 
       {!loading && <h5>{location}</h5>}
       {loading && (
@@ -91,6 +101,8 @@ const App = () => {
                 windMPH={day.windMPH}
                 condition={day.condition}
                 icon={day.icon}
+                sunrise={day.sunrise}
+                sunset={day.sunset}
               />
             </div>
           ))}

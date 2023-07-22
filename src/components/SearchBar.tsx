@@ -23,12 +23,12 @@ const SearchBar = ({ onClick }: Props) => {
         onChange={(e) => setLocation(e.target.value)}
       />
       <button
-        className="btn btn-outline-primary"
+        className="btn btn-outline-secondary"
         type="button"
         id="button-addon2"
         onClick={handleButtonClick}
       >
-        Go
+        Get Weather
       </button>
     </div>
   );

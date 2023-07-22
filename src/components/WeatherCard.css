@@ -3,5 +3,6 @@
 }
 .hover-lg:hover {
     transform: scale(1.1);
+    border: 5px solid rgba(255, 0, 0, 0.76) !important;
     cursor:pointer;
 }
