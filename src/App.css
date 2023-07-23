@@ -1,6 +1,5 @@
 .gradient-sunset{
     background: linear-gradient(to top right, yellow, orange);
-    transition: background is ease-in-out;
 }
 
 body {

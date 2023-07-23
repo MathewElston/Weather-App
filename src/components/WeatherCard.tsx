@@ -34,7 +34,7 @@ const WeatherCard = ({
   return (
     <>
       <div
-        className="hover-lg card shadow-sm border border-warning m-5 d-flex align-items-center"
+        className="hover-lg floating card shadow-sm border border-warning m-5 d-flex align-items-center"
         style={{ width: "18rem" }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

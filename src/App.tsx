@@ -70,7 +70,7 @@ const App = () => {
   }, [location]);
 
   return (
-    <div className="gradient-sunset text-center">
+    <div className="gradient-sunset text-center ">
       <div className ="w-25">
         <SearchBar onClick={(event) => setLocation(event)} />
       </div>
