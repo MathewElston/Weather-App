@@ -6,6 +6,8 @@ import WeatherAPI from "./services/WeatherAPI";
 import { CanceledError } from "axios";
 import getWeekday from "./calendar/Weekdays";
 import SearchBar from "./components/SearchBar";
+import NewsAPI from "./services/NewsAPI";
+import NewsCard from "./components/NewsCard";
 
 interface Weather {
   date?: string;
@@ -20,13 +22,25 @@ interface Weather {
   sunset?: string;
 }
 
+interface News {
+  title?: string;
+  date?: string;
+  author?: string;
+  source?: string;
+  content?: string;
+  url?: string;
+  urlImage: string;
+}
+
 const App = () => {
   const [forecast, setForecast] = useState<Weather[]>();
   const [location, setLocation] = useState("");
   const [days, setDays] = useState(3);
-
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const [article, setArticle] = useState<News[]>();
+  const totalArticles = 5;
 
   useEffect(() => {
     setLoading(true);
@@ -69,13 +83,39 @@ const App = () => {
       });
   }, [location]);
 
+  useEffect(() => {
+    NewsAPI.get("/everything", {
+      params: {
+        q: location,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        setArticle(
+          res.data.articles.slice(0, totalArticles).map((article: any) => ({
+            title: article.title,
+            date: article.publishedAt,
+            author: article.author,
+            source: article.source.name,
+            content: article.description,
+            url: article.url,
+            urlImage: article.urlToImage,
+          }))
+        );
+      })
+      .catch((error) => {
+        // Handle errors here
+        console.error("Error fetching data:", error);
+      });
+  }, [location]);
+
   return (
     <div className="gradient-sunset text-center ">
-      <div className ="w-25">
-        <SearchBar onClick={(event) => setLocation(event)} />
+      <div className="w-25">
+        <SearchBar buttonLabel="Go" onClick={(event) => setLocation(event)} />
       </div>
 
-      {!loading && <h5>{location}</h5>}
+      {!loading && <h1>{location}</h1>}
       {loading && (
         <h5 className="card-title placeholder-glow">
           <span className="placeholder col-3"></span>
@@ -103,6 +143,22 @@ const App = () => {
                 icon={day.icon}
                 sunrise={day.sunrise}
                 sunset={day.sunset}
+              />
+            </div>
+          ))}
+          <h1>Local News</h1>
+        {article &&
+          !loading &&
+          article.map((article) => (
+            <div className="col-md" key={article.date}>
+              <NewsCard
+                title={article.title}
+                date={article.date}
+                author={article.author}
+                source={article.source}
+                content={article.content}
+                url={article.url}
+                urlImage={article.urlImage}
               />
             </div>
           ))}

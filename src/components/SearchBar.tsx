@@ -2,10 +2,11 @@ import React from "react";
 import { useState } from "react";
 
 interface Props {
+  buttonLabel?: string;
   onClick(value: string): void;
 }
 
-const SearchBar = ({ onClick }: Props) => {
+const SearchBar = ({ buttonLabel, onClick }: Props) => {
   const [location, setLocation] = useState("");
   const handleButtonClick = () => {
     location ? onClick(location) : location;
@@ -23,12 +24,12 @@ const SearchBar = ({ onClick }: Props) => {
         onChange={(e) => setLocation(e.target.value)}
       />
       <button
-        className="btn btn-outline-secondary"
+        className="btn btn-outline-primary"
         type="button"
         id="button-addon2"
         onClick={handleButtonClick}
       >
-        Get Weather
+        {buttonLabel}
       </button>
     </div>
   );
